@@ -196,9 +196,18 @@ class QQConfig(Base):
     secret: str = ""  # 机器人密钥 (AppSecret) from q.qq.com
     allow_from: list[str] = Field(
         default_factory=list
-    )  # Allowed user openids (empty = public access)
+    )  # Allowed user openids (empty = public access access)
 
 
+class WeComConfig(Base):
+    """Enterprise WeChat (WeCom) channel configuration using polling mode."""
+
+    enabled: bool = False
+    corp_id: str = ""  # 企业 ID from WeCom Admin Panel
+    agent_id: str = ""  # 应用 ID from WeCom Admin Panel
+    agent_secret: str = ""  # 应用密钥 from WeCom Admin Panel
+    allow_from: list[str] = Field(default_factory=list)  # Allowed user IDs
+    poll_interval_seconds: int = 5  # Polling interval for new messages
 
 
 class ChannelsConfig(Base):
@@ -216,6 +225,7 @@ class ChannelsConfig(Base):
     slack: SlackConfig = Field(default_factory=SlackConfig)
     qq: QQConfig = Field(default_factory=QQConfig)
     matrix: MatrixConfig = Field(default_factory=MatrixConfig)
+    wecom: WeComConfig = Field(default_factory=WeComConfig)
 
 
 class AgentDefaults(Base):
